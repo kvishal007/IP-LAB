@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Job Portal Registration</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+    .home{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    min-height:100vh;
+    color:white;
+}
+
+.features{
+    display:flex;
+    gap:20px;
+    margin-top:40px;
+}
+
+.box{
+    background:rgba(255,255,255,.2);
+    padding:25px;
+    border-radius:15px;
+    width:180px;
+    backdrop-filter:blur(8px);
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+
+}
+
+.container{
+
+width:430px;
+background:rgba(255,255,255,.18);
+backdrop-filter:blur(15px);
+
+padding:35px;
+
+border-radius:20px;
+
+box-shadow:0 20px 40px rgba(0,0,0,.3);
+
+border:1px solid rgba(255,255,255,.3);
+
+}
+
+.container h1{
+
+text-align:center;
+color:white;
+margin-bottom:5px;
+
+}
+
+.container p{
+
+text-align:center;
+color:#eee;
+margin-bottom:25px;
+
+}
+
+.input-group{
+
+margin-bottom:18px;
+
+}
+
+.input-group label{
+
+display:block;
+
+font-weight:bold;
+
+color:white;
+
+margin-bottom:6px;
+
+}
+
+.input-box{
+
+position:relative;
+
+}
+
+.input-box i{
+
+position:absolute;
+
+left:15px;
+
+top:15px;
+
+color:#666;
+
+}
+
+.input-box input{
+
+width:100%;
+
+padding:12px 12px 12px 45px;
+
+border:none;
+
+outline:none;
+
+border-radius:10px;
+
+font-size:15px;
+
+transition:.3s;
+
+}
+
+.input-box input:focus{
+
+box-shadow:0 0 10px cyan;
+
+transform:scale(1.02);
+
+}
+
+input[type=file]{
+
+padding:10px;
+
+background:white;
+
+}
+
+button{
+
+width:100%;
+
+padding:14px;
+
+background:white;
+
+color:#007BFF;
+
+border:none;
+
+border-radius:10px;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.4s;
+
+}
+
+button:hover{
+
+background:#007BFF;
+
+color:white;
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 20px rgba(0,0,0,.3);
+
+}
+
+.footer{
+
+margin-top:15px;
+
+text-align:center;
+
+color:white;
+
+font-size:14px;
+
+}
+
+@media(max-width:500px){
+
+.container{
+
+width:95%;
+
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+
+
+
+<!-- HOME PAGE -->
+
+
+<div class="home" id="homePage">
+
+
+<h1>Career Connect</h1>
+
+
+<p>
+
+A professional job portal platform to search jobs,
+upload resume and connect with companies.
+
+</p>
+
+
+
+<button onclick="openRegister()">
+
+Register Now
+
+</button>
+
+
+
+
+<div class="features">
+
+
+<div class="box">
+
+💼
+<br>
+Job Search
+
+</div>
+
+
+<div class="box">
+
+📄
+<br>
+Resume Upload
+
+</div>
+
+
+<div class="box">
+
+🚀
+<br>
+Career Growth
+
+</div>
+</div>
+</div>
+
+<div class="container" id="registerPage" style="display:none;">
+<h1><i class="fa-solid fa-user-plus"></i> Job Portal</h1>
+
+<p>User Registration Form</p>
+
+<form onsubmit="return validateForm()">
+
+<div class="input-group">
+
+<label>Full Name</label>
+
+<div class="input-box">
+
+<i class="fa fa-user"></i>
+
+<input
+type="text"
+id="name"
+placeholder="Enter Full Name">
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label>Email Address</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-envelope"></i>
+
+<input
+type="email"
+id="email"
+placeholder="Enter Email">
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label>Mobile Number</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-phone"></i>
+
+<input
+type="text"
+id="phone"
+placeholder="Enter Mobile Number">
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label>Password</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-lock"></i>
+
+<input
+type="password"
+id="password"
+placeholder="Create Password">
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label>Confirm Password</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-key"></i>
+
+<input
+type="password"
+id="confirm"
+placeholder="Confirm Password">
+
+</div>
+
+</div>
+
+<div class="input-group">
+
+<label>Upload Resume</label>
+
+<input
+type="file"
+id="resume">
+
+</div>
+
+<button type="submit">
+
+Register Now
+
+</button>
+
+</form>
+
+<div class="footer">
+
+© 2026 Job Portal
+
+</div>
+
+</div>
+
+<script>
+
+
+function openRegister() {
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("registerPage").style.display = "block";
+}
+
+function validateForm(){
+
+var name=document.getElementById("name").value;
+
+var email=document.getElementById("email").value;
+
+var phone=document.getElementById("phone").value;
+
+var password=document.getElementById("password").value;
+
+var confirm=document.getElementById("confirm").value;
+
+var resume=document.getElementById("resume").value;
+
+
+
+var namePattern=/^[A-Za-z ]+$/;
+
+var emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+var phonePattern=/^[6-9][0-9]{9}$/;
+
+var passwordPattern=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/;
+
+var filePattern=/\.(pdf|doc|docx)$/i;
+
+
+
+if(name==""){
+
+alert("Enter Name");
+
+return false;
+
+}
+
+if(!namePattern.test(name)){
+
+alert("Only alphabets allowed.");
+
+return false;
+
+}
+
+
+
+if(email==""){
+
+alert("Enter Email");
+
+return false;
+
+}
+
+if(!emailPattern.test(email)){
+
+alert("Invalid Email");
+
+return false;
+
+}
+
+
+
+if(phone==""){
+
+alert("Enter Mobile Number");
+
+return false;
+
+}
+
+if(!phonePattern.test(phone)){
+
+alert("Enter Valid 10 Digit Mobile Number");
+
+return false;
+
+}
+
+
+
+if(password==""){
+
+alert("Enter Password");
+
+return false;
+
+}
+
+if(!passwordPattern.test(password)){
+
+alert("Password must contain:\n\nMinimum 8 Characters\nOne Uppercase\nOne Lowercase\nOne Number\nOne Special Character");
+
+return false;
+
+}
+
+
+
+if(confirm==""){
+
+alert("Confirm Password");
+
+return false;
+
+}
+
+if(password!=confirm){
+
+alert("Password does not match.");
+
+return false;
+
+}
+
+
+
+if(resume==""){
+
+alert("Upload Resume");
+
+return false;
+
+}
+
+if(!filePattern.test(resume)){
+
+alert("Only PDF DOC DOCX Allowed");
+
+return false;
+
+}
+
+
+
+alert("Registration Successful");
+
+return true;
+
+}
+
+</script>
+
+</body>
+</html>
