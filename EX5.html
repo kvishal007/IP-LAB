@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CodeMaster - Online Exam</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(135deg,#4f46e5,#7c3aed);
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #facc15;
+        }
+
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: white;
+            padding: 35px 8%;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero h1 {
+            color: #312e81;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #6b7280;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 85%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        /* STUDENT */
+
+        .student-box {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .student-box h2 {
+            color: #4338ca;
+            margin-bottom: 15px;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .name-input:focus {
+            border-color: #6366f1;
+        }
+
+        /* PROGRESS */
+
+        .progress-box {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .progress-bg {
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg,#4f46e5,#a855f7);
+            transition: 0.3s;
+        }
+
+        /* QUESTIONS */
+
+        .question-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        .question-number {
+            color: #6366f1;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .option {
+            display: block;
+            padding: 13px;
+            margin: 8px 0;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            background: #f5f3ff;
+            border-color: #8b5cf6;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        /* SUBMIT */
+
+        .submit-area {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .submit-btn {
+            border: none;
+            padding: 15px 45px;
+            border-radius: 30px;
+            background: linear-gradient(135deg,#4f46e5,#7c3aed);
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            text-align: center;
+            padding: 25px;
+        }
+
+        @media(max-width:700px) {
+
+            header {
+                padding: 18px 5%;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Code<span>Master</span> 💻
+    </div>
+
+    <div class="timer">
+        ⏱️ <span id="timer">10:00</span>
+    </div>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>Online Programming Examination</h1>
+
+    <p>
+        Test your knowledge of HTML, CSS and JavaScript.
+        Answer all 10 questions.
+    </p>
+
+</section>
+
+
+<div class="container">
+
+<form action="ExamServlet"
+      method="post"
+      id="examForm">
+
+
+<!-- STUDENT -->
+
+<div class="student-box">
+
+    <h2>👨‍🎓 Student Details</h2>
+
+    <input type="text"
+           name="studentName"
+           class="name-input"
+           placeholder="Enter your full name"
+           required>
+
+</div>
+
+
+<!-- PROGRESS -->
+
+<div class="progress-box">
+
+    <div class="progress-info">
+
+        <span>Exam Progress</span>
+
+        <span>
+            <span id="answered">0</span>/10
+        </span>
+
+    </div>
+
+    <div class="progress-bg">
+
+        <div class="progress-bar"
+             id="progressBar">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Q1 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 01
+    </div>
+
+    <div class="question">
+        Which HTML tag is used to create a hyperlink?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q1" value="A">
+        &lt;link&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q1" value="B">
+        &lt;a&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q1" value="C">
+        &lt;href&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q1" value="D">
+        &lt;url&gt;
+    </label>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 02
+    </div>
+
+    <div class="question">
+        Which CSS property changes the text color?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q2" value="A">
+        background
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q2" value="B">
+        font-style
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q2" value="C">
+        color
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q2" value="D">
+        text-color
+    </label>
+
+</div>
+
+
+<!-- Q3 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 03
+    </div>
+
+    <div class="question">
+        Which keyword is used to declare a variable in JavaScript?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q3" value="A">
+        var
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q3" value="B">
+        int
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q3" value="C">
+        variable
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q3" value="D">
+        declare
+    </label>
+
+</div>
+
+
+<!-- Q4 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 04
+    </div>
+
+    <div class="question">
+        Which HTML tag is used to insert an image?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q4" value="A">
+        &lt;image&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q4" value="B">
+        &lt;img&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q4" value="C">
+        &lt;pic&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q4" value="D">
+        &lt;src&gt;
+    </label>
+
+</div>
+
+
+<!-- Q5 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 05
+    </div>
+
+    <div class="question">
+        Which CSS property makes text bold?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q5" value="A">
+        font-weight
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q5" value="B">
+        font-size
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q5" value="C">
+        text-bold
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q5" value="D">
+        font-style
+    </label>
+
+</div>
+
+
+<!-- Q6 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 06
+    </div>
+
+    <div class="question">
+        Which JavaScript function displays a popup message?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q6" value="A">
+        print()
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q6" value="B">
+        display()
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q6" value="C">
+        alert()
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q6" value="D">
+        popup()
+    </label>
+
+</div>
+
+
+<!-- Q7 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 07
+    </div>
+
+    <div class="question">
+        Which HTML tag creates an unordered list?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q7" value="A">
+        &lt;ol&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q7" value="B">
+        &lt;ul&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q7" value="C">
+        &lt;li&gt;
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q7" value="D">
+        &lt;list&gt;
+    </label>
+
+</div>
+
+
+<!-- Q8 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 08
+    </div>
+
+    <div class="question">
+        Which CSS layout system is mainly used for
+        one-dimensional layouts?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q8" value="A">
+        Grid
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q8" value="B">
+        Flexbox
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q8" value="C">
+        Float
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q8" value="D">
+        Position
+    </label>
+
+</div>
+
+
+<!-- Q9 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 09
+    </div>
+
+    <div class="question">
+        Which JavaScript method converts JSON text into an object?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q9" value="A">
+        JSON.parse()
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q9" value="B">
+        JSON.convert()
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q9" value="C">
+        JSON.object()
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q9" value="D">
+        JSON.change()
+    </label>
+
+</div>
+
+
+<!-- Q10 -->
+
+<div class="question-card">
+
+    <div class="question-number">
+        QUESTION 10
+    </div>
+
+    <div class="question">
+        Which HTML attribute provides alternative text for an image?
+    </div>
+
+    <label class="option">
+        <input type="radio" name="q10" value="A">
+        title
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q10" value="B">
+        src
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q10" value="C">
+        alt
+    </label>
+
+    <label class="option">
+        <input type="radio" name="q10" value="D">
+        text
+    </label>
+
+</div>
+
+
+<div class="submit-area">
+
+    <button type="submit"
+            class="submit-btn">
+
+        Submit Examination 🚀
+
+    </button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<footer>
+
+    <p>© 2026 CodeMaster Online Examination</p>
+    <p>HTML • CSS • JavaScript • Java Servlet • MySQL</p>
+
+</footer>
+
+
+<script>
+
+let time = 600;
+
+let timer = document.getElementById("timer");
+
+let countdown = setInterval(function() {
+
+    let minutes = Math.floor(time / 60);
+
+    let seconds = time % 60;
+
+    seconds = seconds < 10
+            ? "0" + seconds
+            : seconds;
+
+    timer.innerHTML =
+        minutes + ":" + seconds;
+
+    if (time <= 0) {
+
+        clearInterval(countdown);
+
+        alert("Time is over!");
+
+        document.getElementById("examForm").submit();
+
+    }
+
+    time--;
+
+}, 1000);
+
+
+// PROGRESS
+
+let radios =
+    document.querySelectorAll(
+        'input[type="radio"]'
+    );
+
+radios.forEach(function(radio) {
+
+    radio.addEventListener("change",
+        function() {
+
+            let answered = 0;
+
+            for(let i = 1; i <= 10; i++) {
+
+                if(document.querySelector(
+                    'input[name="q' + i + '"]:checked'
+                )) {
+
+                    answered++;
+
+                }
+
+            }
+
+            document.getElementById(
+                "answered"
+            ).innerHTML = answered;
+
+            document.getElementById(
+                "progressBar"
+            ).style.width =
+                (answered * 10) + "%";
+
+        });
+
+});
+
+
+// VALIDATION
+
+document.getElementById("examForm")
+.addEventListener("submit", function(event) {
+
+    let missing = [];
+
+    for(let i = 1; i <= 10; i++) {
+
+        if(!document.querySelector(
+            'input[name="q' + i + '"]:checked'
+        )) {
+
+            missing.push(i);
+
+        }
+
+    }
+
+    if(missing.length > 0) {
+
+        event.preventDefault();
+
+        alert(
+            "Please answer all questions.\n\n" +
+            "Unanswered: Question " +
+            missing.join(", ")
+        );
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>
