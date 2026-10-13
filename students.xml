@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<students>
+    <student>
+        <id>1</id>
+        <name>Arun Kumar</name>
+        <department>Computer Science</department>
+        <year>3</year>
+    </student>
+    <student>
+        <id>2</id>
+        <name>Priya Devi</name>
+        <department>Information Technology</department>
+        <year>3</year>
+    </student>
+    <student>
+        <id>3</id>
+        <name>Karthik S</name>
+        <department>Electronics</department>
+        <year>2</year>
+    </student>
+    <student>
+        <id>4</id>
+        <name>Meena Lakshmi</name>
+        <department>Mechanical</department>
+        <year>4</year>
+    </student>
+</students>

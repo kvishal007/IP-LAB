@@ -1,3 +1,25 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=login.html"><title>Redirecting</title></head>
-<body><a href="login.html">Go to Login</a></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AJAX with XML</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="card wide">
+    <h2>Student Details using AJAX and XML</h2>
+    <p>Click the button to fetch the data from the server without reloading the page.</p>
+    <button id="loadBtn">Load Student Data</button>
+
+    <div id="message"></div>
+
+    <table id="resultTable" style="display:none">
+        <thead>
+            <tr><th>ID</th><th>Name</th><th>Department</th><th>Year</th></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>

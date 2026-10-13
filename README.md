@@ -1,27 +1,29 @@
-# Exercise 12 - Display XML Data Using PHP (SimpleXML)
+# Exercise 13 - Asynchronous Client-Server Interaction Using XML and AJAX
 
 ## 1. Exercise
-Exercise No. **12** - Display XML Data Using PHP (SimpleXML)
+Exercise No. **13** - Asynchronous Client-Server Interaction Using XML and AJAX
 
 ## 2. Objective
-Develop a PHP application that reads employee data from an XML file with SimpleXML and displays it in an HTML table, handling missing or invalid XML.
+Demonstrate asynchronous communication: JavaScript `XMLHttpRequest` requests XML from a PHP script and the page updates dynamically without reloading.
 
-Key concepts: `simplexml_load_file()`, `libxml_use_internal_errors()`, `file_exists()`, iterating XML nodes.
+Key concepts: `XMLHttpRequest`, `onreadystatechange`, `readyState`/`status`, `responseXML`, DOM parsing of XML, `Content-Type: application/xml`.
 
 ## 3. Software Requirements
 - XAMPP (PHP 7.4 or later, Apache only)
 - Any web browser
-- PHP `simplexml` extension (enabled by default in XAMPP)
 
 ## 4. Folder Structure
 ```
-ZIP_12_PHP_XML_Display/
+ZIP_13_AJAX_XML_Interaction/
     README.md
-    index.php
+    get_students.php
+    index.html
     css/
         style.css
     data/
-        employees.xml
+        students.xml
+    js/
+        script.js
 ```
 
 ## 5. Setup Instructions
@@ -29,23 +31,24 @@ ZIP_12_PHP_XML_Display/
 2. Start **Apache** in XAMPP.
 
 ## 6. Database Instructions
-Not required (data is in `data/employees.xml`).
+Not required (data is in `data/students.xml`).
 
 ## 7. How to Execute
-Open the URL. To test error handling, rename or break `data/employees.xml` and refresh.
+Open the URL and click **Load Student Data**.
 
 ## 8. URL
-`http://localhost/ZIP_12_PHP_XML_Display/`
+`http://localhost/ZIP_13_AJAX_XML_Interaction/`
 
 ## 9. Expected Output
-1. A table with Employee ID, Name, Department and Salary for 5 employees.
-2. A footer line: `Total employees: 5 | Total salary: Rs. 274,000.00`.
-3. If the XML file is missing: `XML file not found: data/employees.xml`.
-4. If the XML is malformed: `The XML file is invalid: ...` with the parser's message.
+1. A page with a **Load Student Data** button.
+2. On click, a yellow `Loading data, please wait...` message appears (the server adds a 1-second delay for demo).
+3. The table of students (ID, Name, Department, Year) is then shown **without reloading the page**.
+4. If `data/students.xml` is missing, a red error message such as `Error 404: students.xml not found on the server.` is shown.
+5. If Apache is stopped (or the page is opened with `file://`), `Error: could not reach the server...` is shown.
 
 ## 10. Common Errors and Solutions
 | Problem | Solution |
 |---|---|
-| `Call to undefined function simplexml_load_file()` | Enable `extension=simplexml` (or install `php-xml` on Linux) and restart Apache. |
-| Table is empty | Check that records are inside `<employee>` tags in `data/employees.xml`. |
-| 404 error | Folder must be inside `htdocs`. |
+| Error message on load | Open the page through `http://localhost/...`; AJAX will not work from `file://`. |
+| Table does not appear | Check that `get_students.php` returns valid XML (open it directly in the browser). |
+| 404 error | Folder name in `htdocs` must match the URL. |

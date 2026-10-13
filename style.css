@@ -14,3 +14,6 @@ th{background:#1f4e79;color:#fff;width:35%}
 .card.wide{max-width:760px}
 th{width:auto}
 td.num{text-align:right}
+#message{margin-top:16px;padding:10px;border-radius:4px;display:none}
+#message.loading{display:block;background:#fef9e7;border:1px solid #f4d03f;color:#7d6608}
+#message.error{display:block;background:#fdecea;border:1px solid #e0a39c;color:#c0392b}
