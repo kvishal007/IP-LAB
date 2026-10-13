@@ -1,98 +1,81 @@
 <?php
 /**
- * index.php - E-Learning registration form + server-side validation.
- * The form posts to this same page. If everything is valid, a success page is shown.
+ * PRESENTATION LAYER
+ * Shows the order form and the orders table. All logic is delegated to OrderService.
  */
-require_once 'validation.php';
+require_once 'includes/OrderService.php';
 
-$courses = ['Web Technology', 'Python Programming', 'Data Structures', 'Database Management', 'Machine Learning'];
-
-$values = ['fullname' => '', 'email' => '', 'phone' => '', 'username' => '', 'password' => '', 'course' => ''];
-$errors = [];
-$success = false;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Read and clean the inputs
-    foreach ($values as $field => $default) {
-        $values[$field] = isset($_POST[$field]) ? trim((string) $_POST[$field]) : '';
-    }
-
-    // Run every validator
-    $errors['fullname'] = validateFullName($values['fullname']);
-    $errors['email']    = validateEmail($values['email']);
-    $errors['phone']    = validatePhone($values['phone']);
-    $errors['username'] = validateUsername($values['username']);
-    $errors['password'] = validatePassword($values['password']);
-    $errors['course']   = validateCourse($values['course'], $courses);
-
-    // Keep only the fields that have an error message
-    $errors = array_filter($errors, function ($msg) { return $msg !== ''; });
-    $success = count($errors) === 0;
+function e(string $text): string
+{
+    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
 
-/** Returns the css class for an invalid field. */
-function cls(array $errors, string $field): string
-{
-    return isset($errors[$field]) ? 'invalid' : '';
+$errors = [];
+$saved = false;
+$orders = [];
+$loadError = '';
+
+try {
+    $service = new OrderService();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $errors = $service->placeOrder($_POST);
+        $saved = empty($errors);
+    }
+    $orders = $service->getOrders();
+} catch (Exception $e) {
+    $loadError = 'Could not connect to the database: ' . $e->getMessage()
+               . ' (Is MySQL running and database.sql imported?)';
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>E-Learning Registration</title>
+<title>Online Order Management</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="card">
-<?php if ($success): ?>
-    <h2>Registration Successful</h2>
-    <div class="success">Welcome, <?= e($values['fullname']) ?>! Your account has been created.</div>
-    <table>
-        <tr><th>Full Name</th><td><?= e($values['fullname']) ?></td></tr>
-        <tr><th>Email</th><td><?= e($values['email']) ?></td></tr>
-        <tr><th>Phone</th><td><?= e($values['phone']) ?></td></tr>
-        <tr><th>Username</th><td><?= e($values['username']) ?></td></tr>
-        <tr><th>Password</th><td>********** (hidden)</td></tr>
-        <tr><th>Course</th><td><?= e($values['course']) ?></td></tr>
-    </table>
-    <a class="btn" href="index.php">Register Another User</a>
-<?php else: ?>
-    <h2>E-Learning Registration</h2>
-    <form method="post" action="index.php" novalidate>
-        <label for="fullname">Full Name</label>
-        <input type="text" id="fullname" name="fullname" value="<?= e($values['fullname']) ?>" class="<?= cls($errors, 'fullname') ?>">
-        <?php if (isset($errors['fullname'])): ?><div class="error"><?= e($errors['fullname']) ?></div><?php endif; ?>
+<div class="card wide">
+    <h2>Online Order Management (PHP + MySQL)</h2>
 
-        <label for="email">Email</label>
-        <input type="text" id="email" name="email" value="<?= e($values['email']) ?>" class="<?= cls($errors, 'email') ?>">
-        <?php if (isset($errors['email'])): ?><div class="error"><?= e($errors['email']) ?></div><?php endif; ?>
+    <?php if ($saved): ?><div class="success">Order saved successfully!</div><?php endif; ?>
+    <?php foreach ($errors as $err): ?><div class="error"><?= e($err) ?></div><?php endforeach; ?>
+    <?php if ($loadError !== ''): ?><div class="error"><?= e($loadError) ?></div><?php endif; ?>
 
-        <label for="phone">Phone Number</label>
-        <input type="text" id="phone" name="phone" value="<?= e($values['phone']) ?>" class="<?= cls($errors, 'phone') ?>">
-        <?php if (isset($errors['phone'])): ?><div class="error"><?= e($errors['phone']) ?></div><?php endif; ?>
-
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" value="<?= e($values['username']) ?>" class="<?= cls($errors, 'username') ?>">
-        <?php if (isset($errors['username'])): ?><div class="error"><?= e($errors['username']) ?></div><?php endif; ?>
-
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" class="<?= cls($errors, 'password') ?>">
-        <div class="hint">Min 8 chars: uppercase, lowercase, digit, special character</div>
-        <?php if (isset($errors['password'])): ?><div class="error"><?= e($errors['password']) ?></div><?php endif; ?>
-
-        <label for="course">Course</label>
-        <select id="course" name="course" class="<?= cls($errors, 'course') ?>">
-            <option value="">-- Select Course --</option>
-            <?php foreach ($courses as $c): ?>
-                <option value="<?= e($c) ?>" <?= $values['course'] === $c ? 'selected' : '' ?>><?= e($c) ?></option>
-            <?php endforeach; ?>
-        </select>
-        <?php if (isset($errors['course'])): ?><div class="error"><?= e($errors['course']) ?></div><?php endif; ?>
-
-        <button type="submit">Register</button>
+    <form method="post" action="index.php">
+        <label>Customer Name</label>
+        <input type="text" name="customer" required>
+        <label>Product Name</label>
+        <input type="text" name="product" required>
+        <label>Quantity</label>
+        <input type="number" name="quantity" min="1" required>
+        <label>Price (per unit)</label>
+        <input type="number" name="price" min="0.01" step="0.01" required>
+        <label>Order Date</label>
+        <input type="date" name="order_date" value="<?= date('Y-m-d') ?>" required>
+        <button type="submit">Place Order</button>
     </form>
-<?php endif; ?>
+
+    <h2 style="margin-top:30px">All Orders</h2>
+    <?php if (empty($orders)): ?>
+        <p>No orders found.</p>
+    <?php else: ?>
+    <table>
+        <tr><th>ID</th><th>Customer</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th><th>Date</th></tr>
+        <?php foreach ($orders as $o): ?>
+        <tr>
+            <td><?= (int) $o['order_id'] ?></td>
+            <td><?= e($o['customer_name']) ?></td>
+            <td><?= e($o['product_name']) ?></td>
+            <td class="num"><?= (int) $o['quantity'] ?></td>
+            <td class="num"><?= number_format((float) $o['price'], 2) ?></td>
+            <td class="num"><?= number_format($o['quantity'] * $o['price'], 2) ?></td>
+            <td><?= e($o['order_date']) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    <?php endif; ?>
 </div>
 </body>
 </html>

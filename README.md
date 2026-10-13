@@ -1,56 +1,68 @@
-# Exercise 10 - E-Learning Registration with PHP Validation
+# Exercise 11 - Online Order Management Using PHP and MySQL (Three-Tier)
 
 ## 1. Exercise
-Exercise No. **10** - E-Learning Registration with PHP Validation
+Exercise No. **11** - Online Order Management Using PHP and MySQL (Three-Tier)
 
 ## 2. Objective
-Develop a registration form for an e-learning platform and a PHP script that validates the inputs on the server using regular expressions.
+Develop a three-tier PHP and MySQL application to store (customer, product, quantity, price, order date) and display online orders.
 
-Key concepts: `preg_match()`, `$_POST`, `htmlspecialchars()`, sticky form values, separate validation functions.
+Key concepts: `mysqli` prepared statements (`prepare`, `bind_param`, `execute`), layered design with classes, input validation, `htmlspecialchars()`.
 
 ## 3. Software Requirements
-- XAMPP (PHP 7.4 or later, Apache only)
+- XAMPP (PHP 7.4 or later, Apache, MySQL/MariaDB, phpMyAdmin)
 - Any web browser
 
 ## 4. Folder Structure
 ```
-ZIP_10_PHP_Elearning_Validation/
+ZIP_11_PHP_MySQL_Online_Orders/
     README.md
     index.php
-    validation.php
+    config/
+        database.php
     css/
         style.css
+    includes/
+        OrderRepository.php
+        OrderService.php
+    sql/
+        database.sql
 ```
 
 ## 5. Setup Instructions
-1. Copy this project folder (`ZIP_10_PHP_Elearning_Validation`) into `C:\xampp\htdocs\` (Linux: `/opt/lampp/htdocs/`).
-2. Start **Apache** from the XAMPP Control Panel.
+**Architecture**
+- Presentation layer: `index.php`
+- Business logic layer: `includes/OrderService.php`
+- Database access layer: `includes/OrderRepository.php` (prepared statements) + `config/database.php`
+
+**Steps**
+1. Copy this folder into `C:\xampp\htdocs\`.
+2. Start **Apache** and **MySQL** in the XAMPP Control Panel.
+3. Create the database (see below).
+4. If your MySQL root user has a password, edit `config/database.php`.
 
 ## 6. Database Instructions
-Not required.
+1. Open http://localhost/phpmyadmin
+2. Click the **Import** tab, choose `sql/database.sql` and press **Go**.
+   (Or run `mysql -u root < sql/database.sql`.)
+
+This creates database `order_db`, table `orders` and 3 sample orders.
 
 ## 7. How to Execute
-Open the URL and submit the form (try wrong values first to see the errors).
+Open the URL, fill in the order form and press **Place Order**.
 
 ## 8. URL
-`http://localhost/ZIP_10_PHP_Elearning_Validation/`
+`http://localhost/ZIP_11_PHP_MySQL_Online_Orders/`
 
 ## 9. Expected Output
-1. A registration form with Full Name, Email, Phone, Username, Password and Course.
-2. Invalid fields get a red border and a clear message, e.g. `Phone must be 10 digits and start with 6, 7, 8 or 9.` Entered values are kept.
-3. When all fields are valid, a green **Registration Successful** page with a summary table is shown (password hidden).
-
-Validation rules (regular expressions in `validation.php`):
-- Full name: letters/spaces, 3-50 chars
-- Email: `name@domain.xx`
-- Phone: 10 digits starting with 6-9
-- Username: 5-15 chars, starts with a letter, letters/digits/underscore
-- Password: 8+ chars with upper, lower, digit and special character
-- Course: must be from the list
+1. An order form with customer, product, quantity, price and order date.
+2. An **All Orders** table (ID, customer, product, qty, price, total, date) with the sample rows.
+3. After submitting, `Order saved successfully!` is shown and the new order appears at the top.
+4. Invalid values show red error messages and nothing is saved.
 
 ## 10. Common Errors and Solutions
 | Problem | Solution |
 |---|---|
-| Blank page / PHP code visible | Open via `http://localhost/...`, not by double-clicking the file. |
-| 404 Not Found | The folder must be inside `htdocs` and the name must match the URL. |
-| Apache will not start | Port 80 is in use (Skype/IIS). Change Apache's port in XAMPP config. |
+| `Could not connect to the database` | Start MySQL in XAMPP and import `sql/database.sql`. |
+| `Access denied for user` | Fix `DB_USER` / `DB_PASS` in `config/database.php`. |
+| `Unknown database 'order_db'` | Import `sql/database.sql`. |
+| Blank page | Open via `http://localhost/`, not `file://`. |
