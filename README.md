@@ -1,89 +1,56 @@
-# Exercise 9 - Online Order Management Using JSP and JDBC (Three-Tier)
+# Exercise 10 - E-Learning Registration with PHP Validation
 
 ## 1. Exercise
-Exercise No. **9** - Online Order Management Using JSP and JDBC (Three-Tier)
+Exercise No. **10** - E-Learning Registration with PHP Validation
 
 ## 2. Objective
-Develop a three-tier web application using JSP and JDBC that stores online order details in MySQL and displays all orders in a table.
+Develop a registration form for an e-learning platform and a PHP script that validates the inputs on the server using regular expressions.
 
-Key concepts: JDBC `DriverManager`, `PreparedStatement`, `ResultSet`, try-with-resources, three-tier separation.
+Key concepts: `preg_match()`, `$_POST`, `htmlspecialchars()`, sticky form values, separate validation functions.
 
 ## 3. Software Requirements
-- JDK 11 or 17 (JDK 8+ also works)
-- Apache Tomcat 9.x (uses `javax.servlet`; do NOT use Tomcat 10+ for this code)
+- XAMPP (PHP 7.4 or later, Apache only)
 - Any web browser
-- MySQL Server 5.7/8.x (or XAMPP's MySQL)
-- MySQL Connector/J jar (`mysql-connector-j-8.x.jar`)
 
 ## 4. Folder Structure
 ```
-ZIP_9_JSP_JDBC_Online_Orders/
+ZIP_10_PHP_Elearning_Validation/
     README.md
-    build.bat
-    build.sh
-    sql/
-        database.sql
-    src/
-        com/
-            lab/
-                dao/
-                    OrderDAO.java
-                model/
-                    Order.java
-                service/
-                    OrderService.java
-                util/
-                    DBConnection.java
-    web/
-        index.jsp
-        WEB-INF/
-            web.xml
-            lib/
-                PUT_mysql-connector-j_JAR_HERE.txt
-        css/
-            style.css
+    index.php
+    validation.php
+    css/
+        style.css
 ```
 
 ## 5. Setup Instructions
-**Architecture**
-- Presentation layer: `web/index.jsp`
-- Business logic layer: `service/OrderService.java`
-- Data access layer: `dao/OrderDAO.java`, `util/DBConnection.java` (model: `model/Order.java`)
-
-**Steps**
-1. Create the database (see next section).
-2. Download MySQL Connector/J from https://dev.mysql.com/downloads/connector/j/ and copy the `.jar` into `web/WEB-INF/lib/`.
-3. If your MySQL has a password, edit `PASSWORD` in `src/com/lab/util/DBConnection.java`.
-4. Build the WAR:
-   - Windows: `build.bat "C:\apache-tomcat-9.0.xx\lib\servlet-api.jar"`
-   - Linux/Mac: `./build.sh /opt/tomcat/lib/servlet-api.jar`
-5. Copy `OrderApp.war` to `<TOMCAT>/webapps/` and start Tomcat.
+1. Copy this project folder (`ZIP_10_PHP_Elearning_Validation`) into `C:\xampp\htdocs\` (Linux: `/opt/lampp/htdocs/`).
+2. Start **Apache** from the XAMPP Control Panel.
 
 ## 6. Database Instructions
-Start MySQL, then run:
-
-```
-mysql -u root -p < sql/database.sql
-```
-(or paste `sql/database.sql` into phpMyAdmin > SQL). This creates database `order_db`, table `orders` and 3 sample rows.
+Not required.
 
 ## 7. How to Execute
-Open the URL, enter order details and press **Place Order**.
+Open the URL and submit the form (try wrong values first to see the errors).
 
 ## 8. URL
-`http://localhost:8080/OrderApp/`
+`http://localhost/ZIP_10_PHP_Elearning_Validation/`
 
 ## 9. Expected Output
-1. The order form (customer, product, quantity, price) at the top.
-2. Below it, an **All Orders** table with ID, customer, product, quantity, price, total and date.
-3. After submitting, the message `Order saved successfully!` appears and the new row is shown first.
-4. Invalid input (e.g. quantity `abc`) shows red validation messages.
+1. A registration form with Full Name, Email, Phone, Username, Password and Course.
+2. Invalid fields get a red border and a clear message, e.g. `Phone must be 10 digits and start with 6, 7, 8 or 9.` Entered values are kept.
+3. When all fields are valid, a green **Registration Successful** page with a summary table is shown (password hidden).
+
+Validation rules (regular expressions in `validation.php`):
+- Full name: letters/spaces, 3-50 chars
+- Email: `name@domain.xx`
+- Phone: 10 digits starting with 6-9
+- Username: 5-15 chars, starts with a letter, letters/digits/underscore
+- Password: 8+ chars with upper, lower, digit and special character
+- Course: must be from the list
 
 ## 10. Common Errors and Solutions
 | Problem | Solution |
 |---|---|
-| `MySQL JDBC driver not found` | Copy the Connector/J jar into `web/WEB-INF/lib/` and rebuild the WAR. |
-| `Access denied for user 'root'` | Set the correct password in `DBConnection.java` and rebuild. |
-| `Unknown database 'order_db'` | Run `sql/database.sql` first. |
-| `Communications link failure` | Start the MySQL server (port 3306). |
-| `package javax.servlet does not exist` | Give the correct `servlet-api.jar` path to the build script. |
+| Blank page / PHP code visible | Open via `http://localhost/...`, not by double-clicking the file. |
+| 404 Not Found | The folder must be inside `htdocs` and the name must match the URL. |
+| Apache will not start | Port 80 is in use (Skype/IIS). Change Apache's port in XAMPP config. |
