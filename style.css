@@ -14,3 +14,6 @@ th{background:#1f4e79;color:#fff;width:35%}
 .errors{background:#fdecea;border:1px solid #e0a39c;padding:10px;border-radius:4px}
 .errors li{color:#c0392b}
 .radio-row label{display:inline;font-weight:normal;margin-right:14px}
+.card.xl{width:760px}
+td.num{text-align:right}
+.ok{color:#1e8449;margin-top:10px}

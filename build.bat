@@ -1,8 +1,10 @@
 @echo off
 REM Usage: build.bat "C:\apache-tomcat-9.0.xx\lib\servlet-api.jar"
 if not exist web\WEB-INF\classes mkdir web\WEB-INF\classes
-javac -cp %1 -d web\WEB-INF\classes src\com\lab\*.java
+dir /s /b src\*.java > sources.txt
+javac -cp %1 -d web\WEB-INF\classes @sources.txt
+del sources.txt
 cd web
-jar -cvf ..\SessionDemo.war .
+jar -cvf ..\OrderApp.war .
 cd ..
-echo Created SessionDemo.war - copy it to Tomcat's webapps folder
+echo Created OrderApp.war - copy it to Tomcat's webapps folder

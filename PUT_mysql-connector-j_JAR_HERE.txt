@@ -1,0 +1,2 @@
+Download mysql-connector-j-8.x.jar from https://dev.mysql.com/downloads/connector/j/
+(choose "Platform Independent") and copy the .jar file into this folder.
