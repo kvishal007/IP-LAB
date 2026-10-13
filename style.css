@@ -11,6 +11,6 @@ table{width:100%;border-collapse:collapse;margin-top:14px}
 td,th{border:1px solid #ccc;padding:8px;text-align:left}
 th{background:#1f4e79;color:#fff;width:35%}
 .hint{font-size:12px;color:#666}
-.card.wide{max-width:820px}
-td.num{text-align:right}
+.card.wide{max-width:760px}
 th{width:auto}
+td.num{text-align:right}

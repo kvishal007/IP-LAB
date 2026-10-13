@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+    <employee>
+        <id>101</id>
+        <name>Arun Kumar</name>
+        <department>Computer Science</department>
+        <salary>55000</salary>
+    </employee>
+    <employee>
+        <id>102</id>
+        <name>Priya Devi</name>
+        <department>Information Technology</department>
+        <salary>48000</salary>
+    </employee>
+    <employee>
+        <id>103</id>
+        <name>Karthik S</name>
+        <department>Electronics</department>
+        <salary>52000</salary>
+    </employee>
+    <employee>
+        <id>104</id>
+        <name>Meena Lakshmi</name>
+        <department>Mechanical</department>
+        <salary>61000</salary>
+    </employee>
+    <employee>
+        <id>105</id>
+        <name>Suresh Babu</name>
+        <department>Computer Science</department>
+        <salary>58000</salary>
+    </employee>
+</employees>

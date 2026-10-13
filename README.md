@@ -1,68 +1,51 @@
-# Exercise 11 - Online Order Management Using PHP and MySQL (Three-Tier)
+# Exercise 12 - Display XML Data Using PHP (SimpleXML)
 
 ## 1. Exercise
-Exercise No. **11** - Online Order Management Using PHP and MySQL (Three-Tier)
+Exercise No. **12** - Display XML Data Using PHP (SimpleXML)
 
 ## 2. Objective
-Develop a three-tier PHP and MySQL application to store (customer, product, quantity, price, order date) and display online orders.
+Develop a PHP application that reads employee data from an XML file with SimpleXML and displays it in an HTML table, handling missing or invalid XML.
 
-Key concepts: `mysqli` prepared statements (`prepare`, `bind_param`, `execute`), layered design with classes, input validation, `htmlspecialchars()`.
+Key concepts: `simplexml_load_file()`, `libxml_use_internal_errors()`, `file_exists()`, iterating XML nodes.
 
 ## 3. Software Requirements
-- XAMPP (PHP 7.4 or later, Apache, MySQL/MariaDB, phpMyAdmin)
+- XAMPP (PHP 7.4 or later, Apache only)
 - Any web browser
+- PHP `simplexml` extension (enabled by default in XAMPP)
 
 ## 4. Folder Structure
 ```
-ZIP_11_PHP_MySQL_Online_Orders/
+ZIP_12_PHP_XML_Display/
     README.md
     index.php
-    config/
-        database.php
     css/
         style.css
-    includes/
-        OrderRepository.php
-        OrderService.php
-    sql/
-        database.sql
+    data/
+        employees.xml
 ```
 
 ## 5. Setup Instructions
-**Architecture**
-- Presentation layer: `index.php`
-- Business logic layer: `includes/OrderService.php`
-- Database access layer: `includes/OrderRepository.php` (prepared statements) + `config/database.php`
-
-**Steps**
 1. Copy this folder into `C:\xampp\htdocs\`.
-2. Start **Apache** and **MySQL** in the XAMPP Control Panel.
-3. Create the database (see below).
-4. If your MySQL root user has a password, edit `config/database.php`.
+2. Start **Apache** in XAMPP.
 
 ## 6. Database Instructions
-1. Open http://localhost/phpmyadmin
-2. Click the **Import** tab, choose `sql/database.sql` and press **Go**.
-   (Or run `mysql -u root < sql/database.sql`.)
-
-This creates database `order_db`, table `orders` and 3 sample orders.
+Not required (data is in `data/employees.xml`).
 
 ## 7. How to Execute
-Open the URL, fill in the order form and press **Place Order**.
+Open the URL. To test error handling, rename or break `data/employees.xml` and refresh.
 
 ## 8. URL
-`http://localhost/ZIP_11_PHP_MySQL_Online_Orders/`
+`http://localhost/ZIP_12_PHP_XML_Display/`
 
 ## 9. Expected Output
-1. An order form with customer, product, quantity, price and order date.
-2. An **All Orders** table (ID, customer, product, qty, price, total, date) with the sample rows.
-3. After submitting, `Order saved successfully!` is shown and the new order appears at the top.
-4. Invalid values show red error messages and nothing is saved.
+1. A table with Employee ID, Name, Department and Salary for 5 employees.
+2. A footer line: `Total employees: 5 | Total salary: Rs. 274,000.00`.
+3. If the XML file is missing: `XML file not found: data/employees.xml`.
+4. If the XML is malformed: `The XML file is invalid: ...` with the parser's message.
 
 ## 10. Common Errors and Solutions
 | Problem | Solution |
 |---|---|
-| `Could not connect to the database` | Start MySQL in XAMPP and import `sql/database.sql`. |
-| `Access denied for user` | Fix `DB_USER` / `DB_PASS` in `config/database.php`. |
-| `Unknown database 'order_db'` | Import `sql/database.sql`. |
-| Blank page | Open via `http://localhost/`, not `file://`. |
+| `Call to undefined function simplexml_load_file()` | Enable `extension=simplexml` (or install `php-xml` on Linux) and restart Apache. |
+| Table is empty | Check that records are inside `<employee>` tags in `data/employees.xml`. |
+| 404 error | Folder must be inside `htdocs`. |
