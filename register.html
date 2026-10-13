@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Registration Form</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="card wide">
+  <h2>Student Registration</h2>
+  <form action="result.jsp" method="post">
+    <label>Name</label>
+    <input type="text" name="name" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Phone Number (10 digits)</label>
+    <input type="tel" name="phone" pattern="[0-9]{10}" title="Enter 10 digits" required>
+
+    <label>Gender</label>
+    <div class="radio-row">
+      <label><input type="radio" name="gender" value="Male" required> Male</label>
+      <label><input type="radio" name="gender" value="Female"> Female</label>
+      <label><input type="radio" name="gender" value="Other"> Other</label>
+    </div>
+
+    <label>Course</label>
+    <select name="course" required>
+      <option value="">-- Select Course --</option>
+      <option>B.E. Computer Science</option>
+      <option>B.E. Information Technology</option>
+      <option>B.E. Electronics</option>
+      <option>B.E. Mechanical</option>
+    </select>
+
+    <button type="submit">Register</button>
+  </form>
+</div>
+</body>
+</html>

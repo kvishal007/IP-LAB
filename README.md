@@ -1,33 +1,26 @@
-# Exercise 7 - Session Tracking Using Java Servlets
+# Exercise 8 - JSP Script to Display User Registration Details
 
 ## 1. Exercise
-Exercise No. **7** - Session Tracking Using Java Servlets
+Exercise No. **8** - JSP Script to Display User Registration Details
 
 ## 2. Objective
-Develop a web application using Java Servlets to demonstrate session tracking: login, session creation, storing/reading session data, session validation, timeout and logout.
+Create an HTML registration form and a JSP page that retrieves the submitted values with `request.getParameter()` and displays them on a web page.
 
-Key concepts: `HttpSession`, `getSession()`, `setAttribute()`, `getAttribute()`, `setMaxInactiveInterval()`, `<session-timeout>` in `web.xml`, `invalidate()`.
+Key concepts: `request.getParameter()`, JSP scriptlets/expressions/declarations, server-side validation, HTML escaping.
 
 ## 3. Software Requirements
-- JDK 11 or 17 (JDK 8+ also works)
-- Apache Tomcat 9.x (uses `javax.servlet`; do NOT use Tomcat 10+ for this code)
+- Apache Tomcat 9.x (JSP is compiled automatically; no JDK compile step is needed)
+- JDK 11 or 17
 - Any web browser
 
 ## 4. Folder Structure
 ```
-ZIP_7_Servlet_Session_Tracking/
+ZIP_8_JSP_Registration_Details/
     README.md
-    build.bat
-    build.sh
-    src/
-        com/
-            lab/
-                LoginServlet.java
-                LogoutServlet.java
-                WelcomeServlet.java
     web/
-        index.html
-        login.html
+        index.jsp
+        register.html
+        result.jsp
         WEB-INF/
             web.xml
         css/
@@ -35,33 +28,28 @@ ZIP_7_Servlet_Session_Tracking/
 ```
 
 ## 5. Setup Instructions
-1. Open a terminal inside the project folder.
-2. Build the WAR (replace the path with your Tomcat path):
-   - Windows: `build.bat "C:\apache-tomcat-9.0.xx\lib\servlet-api.jar"`
-   - Linux/Mac: `./build.sh /opt/tomcat/lib/servlet-api.jar`
-3. Copy the generated `SessionDemo.war` file into `<TOMCAT>/webapps/`.
-4. Start Tomcat (`<TOMCAT>/bin/startup.bat` or `startup.sh`).
+1. Copy the **`web`** folder to `<TOMCAT>/webapps/` and rename it to `RegistrationApp`
+   (or zip the contents of `web` as `RegistrationApp.war`: `cd web && jar -cvf ../RegistrationApp.war .`).
+2. Start Tomcat (`<TOMCAT>/bin/startup.bat` or `startup.sh`).
 
 ## 6. Database Instructions
-Not required (demo users are hard coded in `LoginServlet`).
+Not required.
 
 ## 7. How to Execute
-After deploying, open the URL below. Login with `student / lab123` or `admin / admin123`.
+Fill the form and press **Register**.
 
 ## 8. URL
-`http://localhost:8080/SessionDemo/`
+`http://localhost:8080/RegistrationApp/`
 
 ## 9. Expected Output
-1. **Login page** with username and password fields.
-2. After a correct login, the **Welcome page** shows `Welcome, student!`, the session ID, login time and timeout (120 seconds).
-3. Clicking **Logout** calls `session.invalidate()` and shows `Logged Out`.
-4. Opening `/SessionDemo/welcome` after logout (or after 2 minutes idle) shows **Session Expired**.
-5. Wrong credentials show **Login Failed**.
+1. A styled form with Name, Email, Phone, Gender (radio) and Course (drop-down).
+2. After submit, `result.jsp` shows a table with all submitted details.
+3. If data is invalid (e.g. phone not 10 digits), a red list of errors is shown instead.
+4. **Back** returns to the form; **New Registration** opens a blank form.
 
 ## 10. Common Errors and Solutions
 | Problem | Solution |
 |---|---|
-| `package javax.servlet does not exist` | Pass the correct path of Tomcat's `lib/servlet-api.jar` to the build script. |
-| HTTP 404 | Check that the WAR name matches the URL and that Tomcat finished deploying (see `logs/catalina.out`). |
-| Tomcat 10 shows errors | Use Tomcat 9. Tomcat 10 uses `jakarta.*` instead of `javax.*`. |
-| Port 8080 already in use | Stop the other program or change the port in `conf/server.xml`. |
+| HTTP 404 for `/RegistrationApp/` | Check the folder name in `webapps` and that Tomcat started without errors. |
+| Garbled characters | The page already uses UTF-8; make sure your browser is not forcing another encoding. |
+| `HTTP 500 - JSP compile error` | Use a JDK (not only a JRE) and set `JAVA_HOME` before starting Tomcat. |
